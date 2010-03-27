@@ -1,0 +1,8 @@
+= Radiant Blue
+
+A blue theme for the Radiant CMS. Currently working with version 0.9
+
+== Installation
+
+  git clone git://github.com/mariovisic/radiant-blue.git vendor/extensions/forms
+  rake radiant:extensions:forms:update
