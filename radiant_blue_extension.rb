@@ -5,6 +5,6 @@ class RadiantBlueExtension < Radiant::Extension
   
   
   def activate
-    Admin::ResourceController.send :include, RadiantBlueInterface
+    ApplicationController.send :include, RadiantBlueInterface
   end
 end
