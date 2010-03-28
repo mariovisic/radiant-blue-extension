@@ -1,32 +1,32 @@
 namespace :radiant do
   namespace :extensions do
-    namespace :radiant_blue do
+    namespace :blue do
       
       desc "Runs the migration of the Radiant Blue extension"
       task :migrate => :environment do
         require 'radiant/extension_migrator'
         if ENV["VERSION"]
-          RadiantBlueExtension.migrator.migrate(ENV["VERSION"].to_i)
+          BlueExtension.migrator.migrate(ENV["VERSION"].to_i)
         else
-          RadiantBlueExtension.migrator.migrate
+          BlueExtension.migrator.migrate
         end
       end
       
       desc "Copies public assets of the Radiant Blue to the instance public/ directory."
       task :update => :environment do
         is_svn_or_dir = proc {|path| path =~ /\.svn/ || File.directory?(path) }
-        puts "Copying assets from RadiantBlueExtension"
-        Dir[RadiantBlueExtension.root + "/public/**/*"].reject(&is_svn_or_dir).each do |file|
-          path = file.sub(RadiantBlueExtension.root, '')
+        puts "Copying assets from BlueExtension"
+        Dir[BlueExtension.root + "/public/**/*"].reject(&is_svn_or_dir).each do |file|
+          path = file.sub(BlueExtension.root, '')
           directory = File.dirname(path)
           mkdir_p RAILS_ROOT + directory, :verbose => false
           cp file, RAILS_ROOT + path, :verbose => false
         end
-        unless RadiantBlueExtension.root.starts_with? RAILS_ROOT # don't need to copy vendored tasks
-          puts "Copying rake tasks from RadiantBlueExtension"
+        unless BlueExtension.root.starts_with? RAILS_ROOT # don't need to copy vendored tasks
+          puts "Copying rake tasks from BlueExtension"
           local_tasks_path = File.join(RAILS_ROOT, %w(lib tasks))
           mkdir_p local_tasks_path, :verbose => false
-          Dir[File.join RadiantBlueExtension.root, %w(lib tasks *.rake)].each do |file|
+          Dir[File.join BlueExtension.root, %w(lib tasks *.rake)].each do |file|
             cp file, local_tasks_path, :verbose => false
           end
         end
@@ -35,7 +35,7 @@ namespace :radiant do
       desc "Syncs all available translations for this ext to the English ext master"
       task :sync => :environment do
         # The main translation root, basically where English is kept
-        language_root = RadiantBlueExtension.root + "/config/locales"
+        language_root = BlueExtension.root + "/config/locales"
         words = TranslationSupport.get_translation_keys(language_root)
         
         Dir["#{language_root}/*.yml"].each do |filename|
