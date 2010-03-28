@@ -1,4 +1,4 @@
-= Radiant Blue
+= Blue
 
 A blue theme for the Radiant CMS. Currently working with version 0.9
 
@@ -6,5 +6,3 @@ A blue theme for the Radiant CMS. Currently working with version 0.9
 
   git clone git://github.com/mariovisic/radiant-blue-extension.git vendor/extensions/blue
   rake radiant:extensions:blue:update
-
-radiant-blue-extension
